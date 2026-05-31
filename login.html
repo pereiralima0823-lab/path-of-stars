@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login RPG</title>
+<link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<div class="login-box">
+  <div class="login-icon">⚔</div>
+  <h1>Login RPG</h1>
+  <input type="text" id="usuario" placeholder="Usuário" autocomplete="off">
+  <input type="password" id="senha" placeholder="Senha">
+  <button onclick="logar()">Entrar</button>
+  <div id="erro" class="erro"></div>
+</div>
+
+<script>
+// ── USUÁRIOS E SENHAS ──
+// Para alterar, use a página usuarios.html e copie o código gerado aqui.
+const senhaMestre = "stars--";
+
+const senhasJogadores = {
+  "kael":    "stars",
+  "yōko":   "stars",
+  "aeyer":  "stars",
+  "revan":  "stars",
+  "marlide":"stars"
+};
+
+function logar() {
+  const usuario = document.getElementById("usuario").value.toLowerCase().trim();
+  const senha   = document.getElementById("senha").value.trim();
+  const erro    = document.getElementById("erro");
+  erro.textContent = "";
+
+  if (usuario === "mestre" && senha === senhaMestre) {
+    sessionStorage.setItem("logado", "true");
+    sessionStorage.setItem("tipo", "mestre");
+    window.location.href = "index.html";
+    return;
+  }
+
+  if (senhasJogadores.hasOwnProperty(usuario) && senhasJogadores[usuario] === senha) {
+    sessionStorage.setItem("logado", "true");
+    sessionStorage.setItem("tipo", "jogador");
+    sessionStorage.setItem("usuario", usuario);
+    window.location.href = "index.html";
+  } else {
+    erro.textContent = "Usuário ou senha incorretos!";
+    document.getElementById("senha").value = "";
+  }
+}
+
+document.addEventListener("keydown", e => { if (e.key === "Enter") logar(); });
+</script>
+</body>
+</html>
